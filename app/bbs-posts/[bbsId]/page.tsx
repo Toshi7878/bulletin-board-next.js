@@ -3,7 +3,12 @@ import Link from 'next/link';
 import React from 'react'
 
 async function getDetailBBSData(id: number) {
-	const response = await fetch(`http://localhost:3000/api/post/${id}`, {
+
+	const headersData = headers()
+	const host: string = headersData.get('host')
+	const protocol = headersData.get('x-forwarded-proto') ?? host.startWith('localhost') ? 'http' : 'https'
+	const apiBase = `${protocol}://${host}`
+	const response = await fetch(`${apiBase}/api/post/${id}`, {
 		cache: "no-store",
 	});
 

@@ -1,8 +1,14 @@
 import BBSCardList from "./components/BBSCardList";
 import { BBSData } from "./types/types";
+import { headers } from 'next/headers'
 
 async function getBBSAllData() {
-  const responce = await fetch("http://localhost:3000/api/post", {
+
+  const headersData = headers()
+  const host :string = headersData.get('host')
+  const protocol = headersData.get('x-forwarded-proto') ?? host.startWith('localhost') ? 'http' : 'https'
+  const apiBase = `${protocol}://${host}`
+  const responce = await fetch(`${apiBase}/api/post`, {
     cache: "no-store",
   })
 
